@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import './App.css';
+import generateBoard from './BoardGenerator';
+import Board from './Board';
 
 class App extends Component {
 
     constructor(props) {
         super(props);
-        this.cells = [];
+        this.state = {
+            board: generateBoard(10, 6, 20)
+        };
     }
     
     render() {
         return (
 	    <div>
-              Hello Minesweeper
+              <Board board={this.state.board}/>
 	    </div>
         );
     }

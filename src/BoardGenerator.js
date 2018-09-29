@@ -4,7 +4,7 @@ function generate(height, width, numberOfMines) {
     for( let x = 0; x < height; x++ ) {
 	const row = [];
 	for( let y = 0; y < width; y++ ) {
-	    const isMine = mineCoordinates.find(([rx, ry]) => rx == x && ry == y);
+	    const isMine = mineCoordinates.find(([rx, ry]) => rx === x && ry === y);
 	    row[y] = isMine ? 'MINE' : '';
 	}
 	board.push(row);
