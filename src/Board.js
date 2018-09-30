@@ -14,17 +14,19 @@ class Board extends Component {
         for( let row = 0; row < this.props.board.length; row++ ) {
             const columns = [];
             for( let column = 0; column < this.props.board[row].length; column++ ) {
-                columns.push(<td><Cell value={this.props.board[row][column]} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)}/></td>);
+                columns.push(<td key={`${row}${column}`}><Cell value={this.props.board[row][column]} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)}/></td>);
             }
             rows.push(
-                <tr>
+                <tr key={`row-${row}`}>
                   {columns}
                 </tr>
             );
         }
         return (
-            <table>
-              {rows}
+	    <table>
+	      <tbody>
+                {rows}
+              </tbody>
             </table>
         );
     }
