@@ -7,14 +7,24 @@ class Board extends Component {
     constructor(props) {
 	super(props);
 	this.boardAnalyzer = new BoardAnalyzer();
+        this.state = {
+            board: props.mineLayout
+                .map(row => {
+                    return row.map(cell => ({
+                        status: 'UNCOVERED',
+                        value: cell
+                    }));
+                })
+        };
     }
 
     render() {
         const rows = [];
-        for( let row = 0; row < this.props.board.length; row++ ) {
+        for( let row = 0; row < this.state.board.length; row++ ) {
             const columns = [];
-            for( let column = 0; column < this.props.board[row].length; column++ ) {
-                columns.push(<td key={`${row}${column}`}><Cell value={this.props.board[row][column]} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)}/></td>);
+            for( let column = 0; column < this.state.board[row].length; column++ ) {
+                const cell = this.state.board[row][column];
+                columns.push(<td key={`${row}${column}`}><Cell status={cell.status} value={cell.value} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)}/></td>);
             }
             rows.push(
                 <tr key={`row-${row}`}>
@@ -33,10 +43,16 @@ class Board extends Component {
 
     getSurroundingMineCountFn(row, column) {
 	return () => {
-	    return this.boardAnalyzer.getSurroundingMineCount(this.props.board, row, column);
+	    return this.boardAnalyzer.getSurroundingMineCount(this.state.board, row, column);
 	}
     }
-    
+
+    onCellClick(row, column) {
+        this.setState({
+            board: this.boardAnalyzer.uncoverCell(this.state.board, row, column)
+        });
+    }
+
 }
 
 export default Board;

@@ -8,14 +8,14 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            board: generateBoard(10, 6, 20)
+            mineLayout: generateBoard(10, 6, 20),
         };
     }
     
     render() {
         return (
 	    <div>
-              <Board board={this.state.board}/>
+              <Board mineLayout={this.state.mineLayout}/>
 	    </div>
         );
     }
