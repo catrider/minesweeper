@@ -6,18 +6,21 @@ class Cell extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            shown: false
+            shown: false,
+	    surroundingMineCount: 0,
         };
     }
 
     render() {
-        const content = this.state.shown ? this.props.value : '';
+	const contentToUnveil = this.props.value === 'MINE' ? 'M' : this.state.surroundingMineCount; 
+        const content = this.state.shown ? contentToUnveil : '';
 	return <span className="cell" onClick={() => this.handleClick()}>&nbsp;{content}&nbsp;</span>;
     }
 
     handleClick() {
         this.setState({
-            shown: true
+            shown: true,
+	    surroundingMineCount: this.props.surroundingMineCountFn(),
         });
     }
     
