@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Cell from './Cell';
 import BoardAnalyzer from './BoardAnalyzer';
+import './Board.css';
 
 class Board extends Component {
 
@@ -24,7 +25,7 @@ class Board extends Component {
             const columns = [];
             for( let column = 0; column < this.state.board[row].length; column++ ) {
                 const cell = this.state.board[row][column];
-                columns.push(<td key={`${row}${column}`}><Cell status={cell.status} value={cell.value} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)} handleClickFn={() => this.onCellClick(row, column)}/></td>);
+                columns.push(<Cell key={`${row}${column}`} status={cell.status} value={cell.value} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)} handleClickFn={() => this.onCellClick(row, column)}/>);
             }
             rows.push(
                 <tr key={`row-${row}`}>
@@ -33,7 +34,7 @@ class Board extends Component {
             );
         }
         return (
-	    <table>
+	    <table id="board">
 	      <tbody>
                 {rows}
               </tbody>
