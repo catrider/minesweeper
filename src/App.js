@@ -8,7 +8,7 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mineLayout: generateBoard(10, 6, 20),
+            mineLayout: generateBoard(10, 6, 8),
         };
     }
     

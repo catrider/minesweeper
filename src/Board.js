@@ -11,7 +11,7 @@ class Board extends Component {
             board: props.mineLayout
                 .map(row => {
                     return row.map(cell => ({
-                        status: 'UNCOVERED',
+                        status: 'HIDDEN',
                         value: cell
                     }));
                 })
@@ -24,7 +24,7 @@ class Board extends Component {
             const columns = [];
             for( let column = 0; column < this.state.board[row].length; column++ ) {
                 const cell = this.state.board[row][column];
-                columns.push(<td key={`${row}${column}`}><Cell status={cell.status} value={cell.value} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)}/></td>);
+                columns.push(<td key={`${row}${column}`}><Cell status={cell.status} value={cell.value} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)} handleClickFn={() => this.onCellClick(row, column)}/></td>);
             }
             rows.push(
                 <tr key={`row-${row}`}>

@@ -9,8 +9,11 @@ class BoardAnalyzer {
 	
     }
     
-    uncoverCell(board, uncoveredRow, uncoveredColumn) {
-        const newBoard = Array(board.length);
+    uncoverCell(board, uncoveredRow, uncoveredColumn, alreadyUncoveredCells = []) {
+	if( board[uncoveredRow][uncoveredColumn].status === 'REVEALED' ) {
+	    return board;
+	}
+        let newBoard = Array(board.length);
         for( let row = 0; row < board.length; row++ ) {
 	    newBoard[row] = [];
             for( let column = 0; column < board[row].length; column++ ) {
@@ -18,7 +21,7 @@ class BoardAnalyzer {
 		const currentValue = currentCell.value;
 		let newStatus;
 		if( row === uncoveredRow && column === uncoveredColumn ) {
-		    newStatus = 'UNCOVERED';
+		    newStatus = 'REVEALED';
 		} else {
 		    newStatus = currentCell.status;
 		}
@@ -28,9 +31,16 @@ class BoardAnalyzer {
 		};
             }
         }
+	if( this.getSurroundingMineCount(newBoard, uncoveredRow, uncoveredColumn) === 0 && newBoard[uncoveredRow][uncoveredColumn].value !== 'MINE' ) {
+	    const coordinatesToUncover = this._getCoordinatesToCheck(uncoveredRow, uncoveredColumn, newBoard.length, newBoard[0].length);
+	    for( let i = 0; i < coordinatesToUncover.length; i++ ) {
+		const [rowToUncover, columnToUncover] = coordinatesToUncover[i];
+		newBoard = this.uncoverCell(newBoard, rowToUncover, columnToUncover);
+	    }
+	}
         return newBoard;
-    }    
-    
+    }
+
     _getCoordinatesToCheck(row, column, boardHeight, boardWidth) {
 	const coordinatesToCheck = [];
 	for( let x = Math.max(row - 1, 0); x <= Math.min(row + 1, boardHeight - 1); x++) {
