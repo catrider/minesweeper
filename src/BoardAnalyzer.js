@@ -1,7 +1,7 @@
 class BoardAnalyzer {
 
     getSurroundingMineCount(board, row, column) {
-	const coordinatesToCheck = this._getCoordinatesToCheck(row, column, board.length, board[0].length);
+	const coordinatesToCheck = this._getSurroundingCoordinates(row, column, board.length, board[0].length);
 	return coordinatesToCheck
 	    .map(([x, y]) => board[x][y].value)
 	    .filter(value => value === 'MINE')
@@ -9,7 +9,7 @@ class BoardAnalyzer {
 	
     }
     
-    uncoverCell(board, uncoveredRow, uncoveredColumn, alreadyUncoveredCells = []) {
+    uncoverCell(board, uncoveredRow, uncoveredColumn) {
 	if( board[uncoveredRow][uncoveredColumn].status === 'REVEALED' ) {
 	    return board;
 	}
@@ -32,7 +32,7 @@ class BoardAnalyzer {
             }
         }
 	if( this.getSurroundingMineCount(newBoard, uncoveredRow, uncoveredColumn) === 0 && newBoard[uncoveredRow][uncoveredColumn].value !== 'MINE' ) {
-	    const coordinatesToUncover = this._getCoordinatesToCheck(uncoveredRow, uncoveredColumn, newBoard.length, newBoard[0].length);
+	    const coordinatesToUncover = this._getSurroundingCoordinates(uncoveredRow, uncoveredColumn, newBoard.length, newBoard[0].length);
 	    for( let i = 0; i < coordinatesToUncover.length; i++ ) {
 		const [rowToUncover, columnToUncover] = coordinatesToUncover[i];
 		newBoard = this.uncoverCell(newBoard, rowToUncover, columnToUncover);
@@ -41,7 +41,7 @@ class BoardAnalyzer {
         return newBoard;
     }
 
-    _getCoordinatesToCheck(row, column, boardHeight, boardWidth) {
+    _getSurroundingCoordinates(row, column, boardHeight, boardWidth) {
 	const coordinatesToCheck = [];
 	for( let x = Math.max(row - 1, 0); x <= Math.min(row + 1, boardHeight - 1); x++) {
 	    for( let y = Math.max(column - 1, 0); y <= Math.min(column + 1, boardWidth - 1); y++) {
