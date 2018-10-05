@@ -152,7 +152,7 @@ test('uncoverCell uncovers the cell and all surrounding non-mine cells if the ce
     
 });
 
-test('uncoverCell uncovers the cell only if it is a mine', () => {
+test('uncoverCell uncovers all cells if it is a mine', () => {
     const boardAnalyzer = new BoardAnalyzer();
     
     const board = [
@@ -165,17 +165,17 @@ test('uncoverCell uncovers the cell only if it is a mine', () => {
     
     expect(newBoard.length).toBe(3);
     expect(newBoard[0].length).toBe(3);
-    expect(newBoard[0][0]).toEqual({status: 'HIDDEN', value:''});
-    expect(newBoard[0][1]).toEqual({status: 'HIDDEN', value:''});
-    expect(newBoard[0][2]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[0][0]).toEqual({status: 'REVEALED', value:''});
+    expect(newBoard[0][1]).toEqual({status: 'REVEALED', value:''});
+    expect(newBoard[0][2]).toEqual({status: 'REVEALED', value:''});
     expect(newBoard[1].length).toBe(3);
-    expect(newBoard[1][0]).toEqual({status: 'HIDDEN', value:''});
-    expect(newBoard[1][1]).toEqual({status: 'HIDDEN', value:''});
-    expect(newBoard[1][2]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[1][0]).toEqual({status: 'REVEALED', value:''});
+    expect(newBoard[1][1]).toEqual({status: 'REVEALED', value:''});
+    expect(newBoard[1][2]).toEqual({status: 'REVEALED', value:''});
     expect(newBoard[2].length).toBe(3);
-    expect(newBoard[2][0]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[2][0]).toEqual({status: 'REVEALED', value:''});
     expect(newBoard[2][1]).toEqual({status: 'REVEALED', value:'MINE'});
-    expect(newBoard[2][2]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[2][2]).toEqual({status: 'REVEALED', value:''});
     
 });
 

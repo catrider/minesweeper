@@ -13,6 +13,9 @@ class BoardAnalyzer {
 	if( board[uncoveredRow][uncoveredColumn].status === 'REVEALED' ) {
 	    return board;
 	}
+	if( board[uncoveredRow][uncoveredColumn].value === 'MINE' ) {
+	    return this._revealEntireBoard(board);
+	}
         let newBoard = this._copyBoard(board);
 	newBoard[uncoveredRow][uncoveredColumn].status = 'REVEALED';
 	if( this.getSurroundingMineCount(newBoard, uncoveredRow, uncoveredColumn) === 0 && newBoard[uncoveredRow][uncoveredColumn].value !== 'MINE' ) {
@@ -45,6 +48,22 @@ class BoardAnalyzer {
 		const currentStatus = currentCell.status;
 		newBoard[row][column] = {
 		    status: currentStatus,
+		    value: currentValue
+		};
+            }
+        }
+	return newBoard;
+    }
+
+    _revealEntireBoard(board) {
+	let newBoard = Array(board.length);
+        for( let row = 0; row < board.length; row++ ) {
+	    newBoard[row] = [];
+            for( let column = 0; column < board[row].length; column++ ) {
+		const currentCell = board[row][column];
+		const currentValue = currentCell.value;
+		newBoard[row][column] = {
+		    status: 'REVEALED',
 		    value: currentValue
 		};
             }
