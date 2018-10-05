@@ -25,7 +25,7 @@ class Board extends Component {
             const columns = [];
             for( let column = 0; column < this.state.board[row].length; column++ ) {
                 const cell = this.state.board[row][column];
-                columns.push(<Cell key={`${row}${column}`} status={cell.status} value={cell.value} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)} handleClickFn={() => this.onCellClick(row, column)}/>);
+                columns.push(<Cell key={`${row}${column}`} status={cell.status} value={cell.value} surroundingMineCountFn={this.getSurroundingMineCountFn(row, column)} handleClickFn={(event) => this.onCellClick(row, column, event)}/>);
             }
             rows.push(
                 <tr key={`row-${row}`}>
@@ -48,9 +48,16 @@ class Board extends Component {
 	}
     }
 
-    onCellClick(row, column) {
+    onCellClick(row, column, event) {
+	let newBoard;
+	if( !event.ctrlKey ) {
+	    newBoard = this.boardAnalyzer.uncoverCell(this.state.board, row, column)
+	} else {
+	    newBoard = this.boardAnalyzer.toggleFlagCell(this.state.board, row, column);
+	    event.preventDefault();
+	}
         this.setState({
-            board: this.boardAnalyzer.uncoverCell(this.state.board, row, column)
+            board: newBoard
         });
     }
 

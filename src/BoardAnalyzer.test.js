@@ -178,3 +178,55 @@ test('uncoverCell uncovers the cell only if it is a mine', () => {
     expect(newBoard[2][2]).toEqual({status: 'HIDDEN', value:''});
     
 });
+
+test('toggleFlagCell flags the cell if it\'s not already flagged', () => {
+    const boardAnalyzer = new BoardAnalyzer();
+
+    const board = [
+	[{status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value: 'MINE'}, {status: 'HIDDEN', value:''}]
+    ];
+    
+    const newBoard = boardAnalyzer.toggleFlagCell(board, 2, 1);
+
+    expect(newBoard.length).toBe(3);
+    expect(newBoard[0].length).toBe(3);
+    expect(newBoard[0][0]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[0][1]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[0][2]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[1].length).toBe(3);
+    expect(newBoard[1][0]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[1][1]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[1][2]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[2].length).toBe(3);
+    expect(newBoard[2][0]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[2][1]).toEqual({status: 'FLAGGED', value:'MINE'});
+    expect(newBoard[2][2]).toEqual({status: 'HIDDEN', value:''});
+});
+
+test('toggleFlagCell unflags the cell if it\'s already flagged', () => {
+    const boardAnalyzer = new BoardAnalyzer();
+
+    const board = [
+	[{status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'HIDDEN', value: ''}, {status: 'FLAGGED', value: 'MINE'}, {status: 'HIDDEN', value:''}]
+    ];
+    
+    const newBoard = boardAnalyzer.toggleFlagCell(board, 2, 1);
+
+    expect(newBoard.length).toBe(3);
+    expect(newBoard[0].length).toBe(3);
+    expect(newBoard[0][0]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[0][1]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[0][2]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[1].length).toBe(3);
+    expect(newBoard[1][0]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[1][1]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[1][2]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[2].length).toBe(3);
+    expect(newBoard[2][0]).toEqual({status: 'HIDDEN', value:''});
+    expect(newBoard[2][1]).toEqual({status: 'HIDDEN', value:'MINE'});
+    expect(newBoard[2][2]).toEqual({status: 'HIDDEN', value:''});
+});

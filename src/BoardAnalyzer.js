@@ -13,24 +13,8 @@ class BoardAnalyzer {
 	if( board[uncoveredRow][uncoveredColumn].status === 'REVEALED' ) {
 	    return board;
 	}
-        let newBoard = Array(board.length);
-        for( let row = 0; row < board.length; row++ ) {
-	    newBoard[row] = [];
-            for( let column = 0; column < board[row].length; column++ ) {
-		const currentCell = board[row][column];
-		const currentValue = currentCell.value;
-		let newStatus;
-		if( row === uncoveredRow && column === uncoveredColumn ) {
-		    newStatus = 'REVEALED';
-		} else {
-		    newStatus = currentCell.status;
-		}
-		newBoard[row][column] = {
-		    status: newStatus,
-		    value: currentValue
-		};
-            }
-        }
+        let newBoard = this._copyBoard(board);
+	newBoard[uncoveredRow][uncoveredColumn].status = 'REVEALED';
 	if( this.getSurroundingMineCount(newBoard, uncoveredRow, uncoveredColumn) === 0 && newBoard[uncoveredRow][uncoveredColumn].value !== 'MINE' ) {
 	    const coordinatesToUncover = this._getSurroundingCoordinates(uncoveredRow, uncoveredColumn, newBoard.length, newBoard[0].length);
 	    for( let i = 0; i < coordinatesToUncover.length; i++ ) {
@@ -39,6 +23,33 @@ class BoardAnalyzer {
 	    }
 	}
         return newBoard;
+    }
+
+    toggleFlagCell(board, row, column) {
+	let newBoard = this._copyBoard(board);
+	if( newBoard[row][column].status === 'HIDDEN' ) {
+	    newBoard[row][column].status = 'FLAGGED';
+	} else {
+	    newBoard[row][column].status = 'HIDDEN';
+	}
+	return newBoard;
+    }
+
+    _copyBoard(board) {
+	let newBoard = Array(board.length);
+        for( let row = 0; row < board.length; row++ ) {
+	    newBoard[row] = [];
+            for( let column = 0; column < board[row].length; column++ ) {
+		const currentCell = board[row][column];
+		const currentValue = currentCell.value;
+		const currentStatus = currentCell.status;
+		newBoard[row][column] = {
+		    status: currentStatus,
+		    value: currentValue
+		};
+            }
+        }
+	return newBoard;
     }
 
     _getSurroundingCoordinates(row, column, boardHeight, boardWidth) {
