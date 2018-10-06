@@ -230,3 +230,31 @@ test('toggleFlagCell unflags the cell if it\'s already flagged', () => {
     expect(newBoard[2][1]).toEqual({status: 'HIDDEN', value:'MINE'});
     expect(newBoard[2][2]).toEqual({status: 'HIDDEN', value:''});
 });
+
+test('getBoardStatus returns LOSS if a MINE is REVEALED', () => {
+    const boardAnalyzer = new BoardAnalyzer();
+
+    const board = [
+	[{status: 'HIDDEN', value: ''}, {status: 'REVEALED', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'REVEALED', value: ''}, {status: 'HIDDEN', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'HIDDEN', value: ''}, {status: 'REVEALED', value: 'MINE'}, {status: 'HIDDEN', value:''}]
+    ];
+    
+    const boardStatus = boardAnalyzer.getBoardStatus(board);
+
+    expect(boardStatus).toBe('LOSS');
+});
+
+test('getBoardStatus returns IN_PROGRESS if there exists any HIDDEN cells', () => {
+    const boardAnalyzer = new BoardAnalyzer();
+
+    const board = [
+	[{status: 'REVEALED', value: ''}, {status: 'REVEALED', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'REVEALED', value: ''}, {status: 'REVEALED', value: ''}, {status: 'HIDDEN', value:''}],
+	[{status: 'HIDDEN', value: ''}, {status: 'FLAGGED', value: 'MINE'}, {status: 'REVEALED', value:''}]
+    ];
+    
+    const boardStatus = boardAnalyzer.getBoardStatus(board);
+
+    expect(boardStatus).toBe('IN_PROGRESS');
+});

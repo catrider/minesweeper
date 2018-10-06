@@ -38,6 +38,26 @@ class BoardAnalyzer {
 	return newBoard;
     }
 
+    getBoardStatus(board) {
+	let mineRevealed = false;
+	let hiddenCellsExist = false;
+	this._flatten(board)
+	    .forEach(cell => {
+		if (cell.status === 'REVEALED' && cell.value === 'MINE') {
+		    mineRevealed = true;
+		} else if (cell.status === 'HIDDEN') {
+		    hiddenCellsExist = true;
+		}
+	    });
+	let status;
+	if( mineRevealed ) {
+	    status = 'LOSS';
+	} else if (hiddenCellsExist) {
+	    status = 'IN_PROGRESS';
+	}
+	return status;
+    }
+
     _copyBoard(board) {
 	let newBoard = Array(board.length);
         for( let row = 0; row < board.length; row++ ) {
@@ -81,6 +101,10 @@ class BoardAnalyzer {
 	    }
 	}
 	return coordinatesToCheck;
+    }
+
+    _flatten(board) {
+	return [].concat(...board);
     }
     
 }
