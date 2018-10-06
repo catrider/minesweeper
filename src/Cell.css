@@ -6,4 +6,42 @@
 
 .cell span {
     font-size: 14px;
+    font-weight: bold;
+}
+
+.one {
+    color: blue;
+}
+
+.two {
+    color: green;
+}
+
+.three {
+    color: red;
+}
+
+.four {
+    color: darkblue;
+}
+
+.five {
+    color: brown;
+}
+
+.six {
+    color: cyan;
+}
+
+.seven {
+    color: black;
+}
+
+.eight {
+    color: grey;
+}
+
+.mine {
+    color: black;
+    weight: 1000;
 }
